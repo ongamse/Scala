@@ -31,7 +31,7 @@ jobs:
       run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
       id: extract_branch
     - name: NextGen Static Analysis
-      run: ${GITHUB_WORKSPACE}/sl analyze --strict --wait --app Qwiet-scala-GH --tag branch=${{ github.head_ref || steps.extract_branch.outputs.branch }} --vcs-prefix-correction "io/shiftleft=src/main/java/" --java --container 18fgsa/s3-resource target/helloshiftleft-scala-assembly-0.0.1-SNAPSHOT.jar
+      run: $SHIFTLEFT_SBOM_GENERATOR=2 {GITHUB_WORKSPACE}/sl analyze --strict --wait --app Qwiet-scala-GH --tag branch=${{ github.head_ref || steps.extract_branch.outputs.branch }} --vcs-prefix-correction "io/shiftleft=src/main/java/" --java --container 18fgsa/s3-resource target/helloshiftleft-scala-assembly-0.0.1-SNAPSHOT.jar
       #run: ${GITHUB_WORKSPACE}/sl analyze --strict --wait --app Qwiet-scala-GH --tag branch=${{ github.head_ref || steps.extract_branch.outputs.branch }} --javasrc .
       env:
         SHIFTLEFT_ACCESS_TOKEN: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}
